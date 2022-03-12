@@ -46,6 +46,27 @@ echo$txtimagen."<br/>";
 echo$txtaccion."<br/>";
 ?>
 
+Switch($accion){
+           case"Agregar":
+            echo"":"presionado boton agregar";
+             break;
+
+             case"Modificar":
+            echo"":"presionado boton modificar";
+             break;  
+
+             case"Cancelar":
+            echo"":"presionado boton cancelar";
+             break;
+
+
+
+
+
+
+
+
+}
 
 <div class="col-md_5">
 
