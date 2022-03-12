@@ -46,8 +46,25 @@ echo$txtimagen."<br/>";
 echo$txtaccion."<br/>";
 ?>
 
-Switch($accion){
+$host="localhost";
+$bd="sitio";
+$usuario"root";
+$contrasenia="";
+
+try{
+    $conexion=new pdo("mysql:host=$host;dbname"=bd,$usuario,$contrasenia");
+    if($conexion)echo"conectado a sistema";}
+}catch(exeption $ex)}
+
+echo $ex=->getMessage();
+}
+
+
+Switch($accion)
            case"Agregar":
+
+        /insert into SELECT * FROM `cars`
+
             echo"":"presionado boton agregar";
              break;
 
