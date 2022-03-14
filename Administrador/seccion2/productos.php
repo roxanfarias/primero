@@ -60,27 +60,23 @@ echo $ex=->getMessage();
 }
 
 
-Switch($accion)
+ Switch($accion){
            case"Agregar":
 
-        /insert into SELECT * FROM `cars`
+            SELECT `id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen` FROM `sitio`.`cars`
+
+            INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', '');
 
             echo"":"presionado boton agregar";
              break;
 
              case"Modificar":
-            echo"":"presionado boton modificar";
+            echo"":"presionado boton Modificar";
              break;  
 
              case"Cancelar":
-            echo"":"presionado boton cancelar";
+            echo"":"presionado boton Cancelar";
              break;
-
-
-
-
-
-
 
 
 }
