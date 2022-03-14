@@ -38,12 +38,12 @@
 $txtid=(isset($_POST["txtid"]))?$_POST["txtid"]:"";
 $txtNombre=(isset($_POST["txtNombre"]))?$_POST["txtNombre"]:"";
 $txtimagen=(isset($_FILES["$txtimagen"]["name"]))?$_FILES["$txtimagen"]["name"]:"";
-$txtaccion=(isset($_POST["accion"]))?$_POST["accion"]:"";
+$accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
 echo$txtid."<br/>";
 echo$txtNombre."<br/>";
 echo$txtimagen."<br/>";
-echo$txtaccion."<br/>";
+echo$accion."<br/>";
 ?>
 
 $host="localhost";
@@ -100,15 +100,15 @@ echo $ex=->getMessage();
 
 <form>
 <div class = "form-group">
-<label for="txtid">Nombre:</label>
+<label for="txtNombre">Nombre:</label>
 <input type="text" class="form-control" name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
 
 </div>
-<form>
-<div class = "form-group">
-<label for="txtid">Imagen:<label>
-<input type="file" class="form-control" name="txtimagen" id="txtimagen"placeholder="Nombre del Vehículo">
 
+<div class = "form-group">
+<label for="txtNombre">imagen:</label>
+<input type="file" class="form-control" name="txtimagen" id="txtimagen"placeholder="Nombre del Vehículo">
+</div>
 
 <div class="btn-group" role="group" aria-label="">
     <button type="submit" name="accion"value ="Agregar"  class="btn btn-succes">Agregar</button>
