@@ -67,8 +67,8 @@ echo $ex=->getMesagge();
      
            case "Agregar":
 
-            $sentenciaSQL=$conexion->prepare(INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', ''););
-
+            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', '');");
+            $sentenciaSQL=execute();
             SELECT `id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen` FROM `sitio`.`cars`
 
             
