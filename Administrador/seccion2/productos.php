@@ -40,45 +40,51 @@ $txtNombre=(isset($_POST["txtNombre"]))?$_POST["txtNombre"]:"";
 $txtimagen=(isset($_FILES["$txtimagen"]["name"]))?$_FILES["$txtimagen"]["name"]:"";
 $accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
-echo$txtid."<br/>";
-echo$txtNombre."<br/>";
-echo$txtimagen."<br/>";
-echo$accion."<br/>";
-?>
+echo $txtid."<br/>";
+echo $txtNombre."<br/>";
+echo $txtimagen."<br/>";
+echo $accion."<br/>";
+
 
 $host="localhost";
 $bd="sitio";
-$usuario"root";
+$usuario="root";
 $contrasenia="";
+?>
 
+<i class="fa fa-try" 
 try{
-    $conexion=new pdo("mysql:host=$host;dbname"=bd,$usuario,$contrasenia");
-    if($conexion)echo"conectado a sistema";}
-}catch(exeption $ex)}
+    $conexion=new PDO("mysql:host=$host;dbname=$bd",$usuario,$contrasenia);
+    if($conexion){echo"conectado ... a sistema";}
 
-echo $ex=->getMessage();
+}catch(exeption $ex){
+
+echo $ex=->getMesagge();
 }
 
 
  Switch($accion){
-           case"Agregar":
+     
+           case "Agregar":
+
+            $sentenciaSQL=$conexion->prepare(INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', ''););
 
             SELECT `id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen` FROM `sitio`.`cars`
 
-            INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', '');
+            
 
-            echo"":"presionado boton agregar";
+            echo "presionado boton agregar";
              break;
 
              case"Modificar":
-            echo"":"presionado boton Modificar";
+            echo "presionado boton Modificar";
              break;  
 
              case"Cancelar":
-            echo"":"presionado boton Cancelar";
+            echo "presionado boton Cancelar";
              break;
 
-
+             
 }
 
 <div class="col-md_5">
