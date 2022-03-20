@@ -26,9 +26,6 @@
 </nav>
 
 
-<br>
-
-
 <div class="container">
         <div class="row">
 
@@ -37,44 +34,41 @@
 
 $txtid=(isset($_POST["txtid"]))?$_POST["txtid"]:"";
 $txtNombre=(isset($_POST["txtNombre"]))?$_POST["txtNombre"]:"";
-$txtimagen=(isset($_FILES["$txtimagen"]["name"]))?$_FILES["$txtimagen"]["name"]:"";
+$txtImagen=(isset($_FILES["txtImagen"]["name"]))?$_FILES["txtImagen"]["name"]:"";
 $accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
 echo $txtid."<br/>";
 echo $txtNombre."<br/>";
-echo $txtimagen."<br/>";
+echo $txtImagen."<br/>";
 echo $accion."<br/>";
+?>
 
-
-$host="localhost";
+<?php
+$host="localhost:3307";
 $bd="sitio";
 $usuario="root";
 $contrasenia="";
-?>
 
-<i class="fa fa-try" 
 try{
     $conexion=new PDO("mysql:host=$host;dbname=$bd",$usuario,$contrasenia);
     if($conexion){echo"conectado ... a sistema";}
 
-}catch(exeption $ex){
+}catch(Exception $ex){
 
-echo $ex=->getMesagge();
+echo $ex->getMessage();
 }
+?>
 
-
+<?php
  Switch($accion){
      
            case "Agregar":
 
-            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, '', '', '', '', '');");
-            $sentenciaSQL=execute();
-            SELECT `id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen` FROM `sitio`.`cars`
+            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, 'BMW', 'Z4', 'Blanco', '100', 'BMWZ4.jpg');");
+            $sentanciaSQL->execute();
 
-            
-
-            echo "presionado boton agregar";
-             break;
+            echo "presionado boton Agregar";
+            break;
 
              case"Modificar":
             echo "presionado boton Modificar";
@@ -86,6 +80,7 @@ echo $ex=->getMesagge();
 
              
 }
+?>
 
 <div class="col-md_5">
 
@@ -97,7 +92,10 @@ echo $ex=->getMesagge();
 
     <div class="card-body">
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
+
+
+
 <div class = "form-group">
 <label for="txtid">id:</label>
 <input type="text" class="form-control" name="txtid" id="txtid"placeholder="id">
@@ -112,8 +110,8 @@ echo $ex=->getMesagge();
 </div>
 
 <div class = "form-group">
-<label for="txtNombre">imagen:</label>
-<input type="file" class="form-control" name="txtimagen" id="txtimagen"placeholder="Nombre del Vehículo">
+<label for="txtNombre">Imagen:</label>
+<input type="file" class="form-control" name="txtImagen" id="txtImagen"placeholder="Nombre del Vehículo">
 </div>
 
 <div class="btn-group" role="group" aria-label="">
