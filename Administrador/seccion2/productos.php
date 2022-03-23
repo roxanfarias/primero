@@ -49,6 +49,8 @@ $bd="sitio";
 $usuario="root";
 $contrasenia="";
 
+
+
 try{
     $conexion=new PDO("mysql:host=$host;dbname=$bd",$usuario,$contrasenia);
     if($conexion){echo"conectado ... a sistema";}
@@ -58,14 +60,15 @@ try{
 echo $ex->getMessage();
 }
 ?>
-
 <?php
+
  Switch($accion){
      
            case "Agregar":
-
-            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, 'BMW', 'Z4', 'Blanco', '100', 'BMWZ4.jpg');");
-            $sentanciaSQL->execute();
+            
+            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, 'Citroen', 'C3', 'Sky', '100', 'Citroen C3.jpg');");
+            $sentenciaSQL->execute();
+            $sentenciaSQL=$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             echo "presionado boton Agregar";
             break;
