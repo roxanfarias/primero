@@ -39,7 +39,7 @@ $accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
 echo $txtid."<br/>";
 echo $txtNombre."<br/>";
-echo $txtImagen."<br/>";
+echo $txtImagen."<br/>";  
 echo $accion."<br/>";
 ?>
 
@@ -66,9 +66,23 @@ echo $ex->getMessage();
      
            case "Agregar":
             
-            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`id`, `Nombre`, `Modelo`, `Color`, `PrecioDía`, `Imagen`) VALUES (NULL, 'Citroen', 'C3', 'Sky', '100', 'Citroen C3.jpg');");
-            $sentenciaSQL->execute();
-            $sentenciaSQL=$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (Nombre`, `Modelo`, `Color`, `PrecioDia`, `Imagen`) 
+                                                 VALUES (:Nombre, :Color, :PrecioDia, :Imagen);");
+            $arrayInsert = [
+                "Nombre" => $txtNombre,
+                "Modelo" => $txtModelo,
+                "Color" => "",
+                "PrecioDia"=>"",
+                "Imagen"=>""
+            ];
+
+
+
+
+
+            $sentenciaSQL->execute($arrayInsert);
+           
+           
 
             echo "presionado boton Agregar";
             break;
@@ -80,9 +94,22 @@ echo $ex->getMessage();
              case"Cancelar":
             echo "presionado boton Cancelar";
              break;
+            
 
-             
-}
+             case"Seleccionar":
+                echo "presionado boton Seleccionar";
+                 break;
+
+                 case"Borrar":
+                    echo "presionado boton Borrar";
+                     break;
+
+                 }
+             $sentenciaSQL=$conexion->prepare("Select * From cars");
+             $sentenciaSQL->execute();
+             $listacars=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <div class="col-md_5">
@@ -130,7 +157,7 @@ echo $ex->getMessage();
 <form>
     </div>
 
-    <div class="col-md_7">
+    <div class="col-7md-">
         <table class="table table-bordered">
 
     
@@ -140,21 +167,43 @@ echo $ex->getMessage();
                 <th>Nombre</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
+                <th>Precio Día</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>2</td>
-                <td>Hyundai</td>
-                <td>imagen.jpg</td>
-                <td>seleccionar|borrar</td>
+        <?php foreach($listacars as $cars) { ?> 
 
+            <tr>
+            <td><?php echo $cars["id"]; ?></td>
+            <td><?php echo $cars["Nombre"]; ?></td>
+            <td><?php echo $cars["Modelo"]; ?></td>
+            <td><?php echo $cars["Color"]; ?></td>
+            <td><?php echo $cars["PrecioDía"]; ?></td>
+            <td><?php echo $cars["Imagen"]; ?></td>
+                
+                <td>
+
+                seleccionar|borrar</td>
+                <form method="post">
+
+               <input type="hidden" name="txtid" id="txtid" value="<?php echo $cars["id"]; ?>"/>
+               <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary"/>
+               <input type="submit" name="accion" value="Borrar" class="btn btn-danger"/>
+               
+                </form>
+
+                <td>
+                </tr>
+            
+                <?php } ?>
+                <tbody>
 
                 <td scope="row"></td>
                 <td></td>
                 <td></td>
             </tr>
+            
             
         </tbody>
     </table>
