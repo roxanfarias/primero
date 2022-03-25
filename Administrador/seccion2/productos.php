@@ -34,13 +34,10 @@
 
 $txtid=(isset($_POST["txtid"]))?$_POST["txtid"]:"";
 $txtNombre=(isset($_POST["txtNombre"]))?$_POST["txtNombre"]:"";
+$txtModelo=(isset($_POST["txtModelo"]))?$_POST["txtModelo"]:"";
 $txtImagen=(isset($_FILES["txtImagen"]["name"]))?$_FILES["txtImagen"]["name"]:"";
 $accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
-echo $txtid."<br/>";
-echo $txtNombre."<br/>";
-echo $txtImagen."<br/>";  
-echo $accion."<br/>";
 ?>
 
 <?php
@@ -66,8 +63,8 @@ echo $ex->getMessage();
      
            case "Agregar":
             
-            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (Nombre`, `Modelo`, `Color`, `PrecioDia`, `Imagen`) 
-                                                 VALUES (:Nombre, :Color, :PrecioDia, :Imagen);");
+            $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`Nombre`,`Modelo`,`Color`,`PrecioDia`, `Imagen`) 
+                                                 VALUES (:Nombre,:Modelo, :Color, :PrecioDia, :Imagen);");
             $arrayInsert = [
                 "Nombre" => $txtNombre,
                 "Modelo" => $txtModelo,
@@ -75,9 +72,6 @@ echo $ex->getMessage();
                 "PrecioDia"=>"",
                 "Imagen"=>""
             ];
-
-
-
 
 
             $sentenciaSQL->execute($arrayInsert);
@@ -88,23 +82,25 @@ echo $ex->getMessage();
             break;
 
              case"Modificar":
-            echo "presionado boton Modificar";
+             echo "presionado boton Modificar";
              break;  
 
              case"Cancelar":
-            echo "presionado boton Cancelar";
+             echo "presionado boton Cancelar";
              break;
-            
 
              case"Seleccionar":
-                echo "presionado boton Seleccionar";
+             echo "presionado boton Seleccionar";
                  break;
 
-                 case"Borrar":
-                    echo "presionado boton Borrar";
+             case"Borrar":
+             echo "presionado boton Borrar";
                      break;
 
                  }
+
+
+
              $sentenciaSQL=$conexion->prepare("Select * From cars");
              $sentenciaSQL->execute();
              $listacars=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -140,6 +136,14 @@ echo $ex->getMessage();
 </div>
 
 <div class = "form-group">
+<label for="txtNombre">Modelo:</label>
+<input type="text" class="form-control" name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
+
+</div>
+
+
+
+<div class = "form-group">
 <label for="txtNombre">Imagen:</label>
 <input type="file" class="form-control" name="txtImagen" id="txtImagen"placeholder="Nombre del Vehículo">
 </div>
@@ -165,9 +169,10 @@ echo $ex->getMessage();
             <tr>
                 <th>id</th>
                 <th>Nombre</th>
-                <th>Imagen</th>
-                <th>Acciones</th>
+                <th>Modelo</th>
+                <th>Color</th>
                 <th>Precio Día</th>
+                <th>Imagen</th>
 
             </tr>
         </thead>
@@ -179,7 +184,7 @@ echo $ex->getMessage();
             <td><?php echo $cars["Nombre"]; ?></td>
             <td><?php echo $cars["Modelo"]; ?></td>
             <td><?php echo $cars["Color"]; ?></td>
-            <td><?php echo $cars["PrecioDía"]; ?></td>
+            <td><?php echo $cars["PrecioDia"]; ?></td>
             <td><?php echo $cars["Imagen"]; ?></td>
                 
                 <td>
