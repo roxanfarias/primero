@@ -35,6 +35,8 @@
 $txtid=(isset($_POST["txtid"]))?$_POST["txtid"]:"";
 $txtNombre=(isset($_POST["txtNombre"]))?$_POST["txtNombre"]:"";
 $txtModelo=(isset($_POST["txtModelo"]))?$_POST["txtModelo"]:"";
+$txtColor=(isset($_POST["txtColor"]))?$_POST["txtColor"]:"";
+$txtPrecioDia=(isset($_POST["txtPrecioDia"]))?$_POST["txtPrecioDia"]:"";
 $txtImagen=(isset($_FILES["txtImagen"]["name"]))?$_FILES["txtImagen"]["name"]:"";
 $accion=(isset($_POST["accion"]))?$_POST["accion"]:"";
 
@@ -68,20 +70,41 @@ echo $ex->getMessage();
             $arrayInsert = [
                 "Nombre" => $txtNombre,
                 "Modelo" => $txtModelo,
-                "Color" => "",
-                "PrecioDia"=>"",
-                "Imagen"=>""
+                "Color" => $txtColor,
+                "PrecioDia"=>$txtPrecioDia,
+                "Imagen"=>$txtImagen,
             ];
 
 
             $sentenciaSQL->execute($arrayInsert);
            
            
+            $fecha=new DateTime();
+            $NombreArchivo=($txtImagen!="")?$fecha->getTimestamp()."_".$_FILES["$txtImagen"]["name"]:"Imagen.jpg";
+
+            $tmpImagen=$_FILES["txtImagen"]["tmp_name"];
+            if($tmpImagen!=""){
+
+                move_uploaded_file($tmpImagen,"../../Img".$NombreArchivo);
+            }
 
             echo "presionado boton Agregar";
             break;
 
              case"Modificar":
+                $sentenciaSQL=$conexion->prepare("UPDATE cars SET Nombre=:Nombre Where id=:id");
+                $sentenciaSQL->bindParam(":Nombre",$txtNombre);
+                $sentenciaSQL->bindParam(":id",$txtid);
+                $sentenciaSQL->execute();
+               
+                if($txtImagen!=""){
+                $sentenciaSQL=$conexion->prepare("UPDATE cars SET Imagen=:Imagen Where id=:id");
+                $sentenciaSQL->bindParam(":Imagen",$txtImagen);
+                $sentenciaSQL->bindParam(":id",$txtid);
+                $sentenciaSQL->execute();
+                
+            }
+        
              echo "presionado boton Modificar";
              break;  
 
@@ -90,11 +113,28 @@ echo $ex->getMessage();
              break;
 
              case"Seleccionar":
-             echo "presionado boton Seleccionar";
+
+                $sentenciaSQL=$conexion->prepare("Select * From cars where id=:id");
+                $sentenciaSQL->bindParam(":id",$txtid);
+                $sentenciaSQL->execute();
+                $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+                $txtNombre=$cars=["Nombre"];
+
+             //echo "presionado boton Seleccionar";
                  break;
 
              case"Borrar":
-             echo "presionado boton Borrar";
+                $sentenciaSQL=$conexion->prepare("DELETE * From cars Where id=:id");
+                $sentenciaSQL->bindParam(":id",$txtid);
+                $sentenciaSQL->execute();
+
+                $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+                $txtNombre=$cars=["Nombre"];
+
+               
+             // * echo "presionado boton Borrar";
                      break;
 
                  }
@@ -124,27 +164,40 @@ echo $ex->getMessage();
 
 <div class = "form-group">
 <label for="txtid">id:</label>
-<input type="text" class="form-control" name="txtid" id="txtid"placeholder="id">
+<input type="text" class="form-control"Value=<?php echo $txtid?>; name="txtid" id="txtid"placeholder="id">
 
 </div>
 
 <form>
 <div class = "form-group">
 <label for="txtNombre">Nombre:</label>
-<input type="text" class="form-control" name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
+<input type="text" class="form-control"Value=<?php echo $txtNombre?>; name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
 
 </div>
 
 <div class = "form-group">
 <label for="txtNombre">Modelo:</label>
-<input type="text" class="form-control" name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
+<input type="text" class="form-control"Value=<?php echo $txtModelo?>; name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
+
+</div>
+
+<div class = "form-group">
+<label for="txtNombre">Color:</label>
+<input type="text" class="form-control"Value=<?php echo $txtColor?>; name="txtColor" id="txtColor"placeholder="Color del Vehículo">
+
+</div>
+
+<div class = "form-group">
+<label for="txtNombre">PrecioDia:</label>
+<input type="text" class="form-control"Value=<?php echo $txtPrecioDia?>; name="txtPrecioDia" id="txtPrecioDia"placeholder="Precio del Vehículo">
 
 </div>
 
 
-
 <div class = "form-group">
 <label for="txtNombre">Imagen:</label>
+
+<?php echo $txtImagen;?>
 <input type="file" class="form-control" name="txtImagen" id="txtImagen"placeholder="Nombre del Vehículo">
 </div>
 
@@ -154,11 +207,11 @@ echo $ex->getMessage();
     <button type="submit" name="accion"Value="Cancelar"  class="btn btn-Info">Cancelar</button>
 </div>
        
-    </div>
+</form>
     
 </div>
 
-<form>
+
     </div>
 
     <div class="col-7md-">

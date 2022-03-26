@@ -1,7 +1,17 @@
 <?php
+//*cambiar por consulta a la base de datos cuando cree Usuario en bd
 
-if($_POST){
- header("location:inicio.php");
+session_start(); 
+ if($_POST){
+   if(($_POST["Usuario"]=="Rentacars")&&($_POST["contraseña"]=="sistema")){
+     $_SESSION["usuario"]="ok";
+     $_SESSION["nombreusuario"]="Rentacars";
+    header("location:inicio.php");
+   }else{
+     $mensaje="Error:El usuario o contraseña incorrectos";
+
+   }
+ 
  }
 ?>
 <!doctype html>
@@ -27,14 +37,19 @@ if($_POST){
                    Login
                </div>
                <div class="card-body">
+              <?php if(isset($mensaje))           {  ?>
+              <div class= "alert alert-primary"role="alert> 
+                          <?php echo $mensaje;?>
 
+             </div>
+             <?php }?>
 
                <form method="POST">
                <div class = "form-group">
                <label for=>Usuario</label>
                <input type="text" class="form-control" name="Usuario" placeholder="Escribe tu usuario">
                
-
+            
                </div>
                <div class="form-group">
 
