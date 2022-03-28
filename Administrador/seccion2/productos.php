@@ -88,6 +88,7 @@ echo $ex->getMessage();
                 move_uploaded_file($tmpImagen,"../../Img".$NombreArchivo);
             }
 
+
             echo "presionado boton Agregar";
             break;
 
@@ -113,27 +114,44 @@ echo $ex->getMessage();
              break;
 
              case"Seleccionar":
-
+                
                 $sentenciaSQL=$conexion->prepare("Select * From cars where id=:id");
                 $sentenciaSQL->bindParam(":id",$txtid);
                 $sentenciaSQL->execute();
                 $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
-                $txtNombre=$cars=["Nombre"];
-
+                $arrayInsert = [
+                    "Nombre" => $txtNombre,
+                    "Modelo" => $txtModelo,
+                    "Color" => $txtColor,
+                    "PrecioDia"=>$txtPrecioDia,
+                    "Imagen"=>$txtImagen,
+                ];
              //echo "presionado boton Seleccionar";
                  break;
 
              case"Borrar":
-                $sentenciaSQL=$conexion->prepare("DELETE * From cars Where id=:id");
+
+                $sentenciaSQL=$conexion->prepare("Select Imagen From cars WHERE id=:id");
                 $sentenciaSQL->bindParam(":id",$txtid);
                 $sentenciaSQL->execute();
-
                 $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
-                $txtNombre=$cars=["Nombre"];
+                
+            if(isset($cars["Imagen"])&&($cars["Imagen"]!="Imagen.jpg")){
+            if(file_exists("../../Imagen/".$cars["Imagen"])){
 
-               
+                unlink("../../Imagen/".$cars["Imagen"]);
+
+            }
+            
+        }
+        $sentenciaSQL=$conexion->prepare("DELETE From cars WHERE id=:id");
+        $sentenciaSQL->bindParam(":id",$txtid);
+        $sentenciaSQL->execute();
+        $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+    
+        
              // * echo "presionado boton Borrar";
                      break;
 
@@ -164,20 +182,20 @@ echo $ex->getMessage();
 
 <div class = "form-group">
 <label for="txtid">id:</label>
-<input type="text" class="form-control"Value=<?php echo $txtid?>; name="txtid" id="txtid"placeholder="id">
+<input type="text" class="form-control"Value=<?php echo $txtid;?> name="txtid" id="txtid"placeholder="id">
 
 </div>
 
 <form>
 <div class = "form-group">
 <label for="txtNombre">Nombre:</label>
-<input type="text" class="form-control"Value=<?php echo $txtNombre?>; name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
+<input type="text" class="form-control"Value=<?php echo $txtNombre;?> name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
 
 </div>
 
 <div class = "form-group">
 <label for="txtNombre">Modelo:</label>
-<input type="text" class="form-control"Value=<?php echo $txtModelo?>; name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
+<input type="text" class="form-control"Value=<?php echo $txtModelo;?> name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
 
 </div>
 
@@ -238,11 +256,20 @@ echo $ex->getMessage();
             <td><?php echo $cars["Modelo"]; ?></td>
             <td><?php echo $cars["Color"]; ?></td>
             <td><?php echo $cars["PrecioDia"]; ?></td>
-            <td><?php echo $cars["Imagen"]; ?></td>
-                
-                <td>
+            <td>
+            <img surce="../../Imagen"<?php echo $cars["Imagen"];?>"width="10"alt="" srcset="">
+            <?php echo $cars["Imagen"]; ?>
 
-                seleccionar|borrar</td>
+
+             
+
+            
+
+            </td>
+                
+            <td>
+
+                seleccionar|borrar
                 <form method="post">
 
                <input type="hidden" name="txtid" id="txtid" value="<?php echo $cars["id"]; ?>"/>

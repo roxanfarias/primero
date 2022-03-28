@@ -29,7 +29,7 @@ $listacars=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
     <img class="card-img-top" src="./Imagen<?php echo $cars["Imagen"];?>" alt="">
     <div class="card-body">
     <h4 class="card-title"><?php echo $cars["Nombre"];?></h4>
-    <a name="" id="" class="btn btn-primary" href="https://www.montevideorentacar.com/" role="button">Reservar</a>
+    <a name="" id="" class="btn btn-primary" href="Clientes.php" role="button">Reservar</a>
     </div>
     </div>
     </div>

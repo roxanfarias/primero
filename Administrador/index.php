@@ -3,9 +3,9 @@
 
 session_start(); 
  if($_POST){
-   if(($_POST["Usuario"]=="Rentacars")&&($_POST["contraseña"]=="sistema")){
-     $_SESSION["usuario"]="ok";
-     $_SESSION["nombreusuario"]="Rentacars";
+   if(($_POST["Usuario"]=="Usuario")&&($_POST["contraseña"]=="sistema")){
+     $_SESSION["Usuario"]="ok";
+     $_SESSION["nombreusuario"]="Usuario";
     header("location:inicio.php");
    }else{
      $mensaje="Error:El usuario o contraseña incorrectos";
