@@ -1,3 +1,10 @@
+<?php
+
+  @session_start(); 
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,8 +42,8 @@
   </div>
       
     <div class="jumbotron">
-        <h1 class="display-3">Bienvenido</h1>
-        <p class="lead">Usuario calificado para el ingreso de nuevos productos</p>
+        <h1 class="display-3">Bienvenido <?=$_SESSION["nombreusuario"]?><h1>
+        <p class="lead">Usuario calificado</p>
         <hr class="my-2">
         <p>More info</p>
         <p class="lead">

@@ -64,29 +64,45 @@ echo $ex->getMessage();
  Switch($accion){
      
            case "Agregar":
+
+
+            // SUBIMOS EL ARCHIVO 
+
+            $fecha=new DateTime();
+            $NombreArchivo =  isset($_FILES["txtImagen"]["name"])?  $fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"] : "Imagen.jpg";
+           
+            /*
+            if($tmpImagen!=""){
+
+                move_uploaded_file($tmpImagen,"../../Img".$NombreArchivo);
+            }*/
+
+            if( isset($_FILES['txtImagen']['name']) ){
+                $ruta = "Imagen/".$NombreArchivo;
+            
+                if(copy($_FILES['txtImagen']['tmp_name'], $ruta)){
+                   
+                }else{
+                    print_r("Dio Error al subir la imagen");
+                    die();
+                }
+            }
+
+
+            // INGRESAMOS EN LA BASE DE DATOS
             
             $sentenciaSQL=$conexion->prepare("INSERT INTO `cars` (`Nombre`,`Modelo`,`Color`,`PrecioDia`, `Imagen`) 
                                                  VALUES (:Nombre,:Modelo, :Color, :PrecioDia, :Imagen);");
             $arrayInsert = [
-                "Nombre" => $txtNombre,
-                "Modelo" => $txtModelo,
-                "Color" => $txtColor,
-                "PrecioDia"=>$txtPrecioDia,
-                "Imagen"=>$txtImagen,
+                "Nombre"    => $txtNombre,
+                "Modelo"    => $txtModelo,
+                "Color"     => $txtColor,
+                "PrecioDia" =>$txtPrecioDia,
+                "Imagen"    =>$NombreArchivo,
             ];
 
 
             $sentenciaSQL->execute($arrayInsert);
-           
-           
-            $fecha=new DateTime();
-            $NombreArchivo=($txtImagen!="")?$fecha->getTimestamp()."_".$_FILES["$txtImagen"]["name"]:"Imagen.jpg";
-
-            $tmpImagen=$_FILES["txtImagen"]["tmp_name"];
-            if($tmpImagen!=""){
-
-                move_uploaded_file($tmpImagen,"../../Img".$NombreArchivo);
-            }
 
 
             echo "presionado boton Agregar";
@@ -150,7 +166,6 @@ echo $ex->getMessage();
         $sentenciaSQL->bindParam(":id",$txtid);
         $sentenciaSQL->execute();
         $cars=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
-    
         
              // * echo "presionado boton Borrar";
                      break;
@@ -170,44 +185,46 @@ echo $ex->getMessage();
 
 
 <div class="card">
-    <div class="card-header">
+ <div class="card-header">
         Datos de Vehículos
     </div>
 
     <div class="card-body">
 
-    <form method="POST" enctype="multipart/form-data">
+    <form  action="index.php" method="POST" enctype='multipart/form-data'>
+
+   
 
 
 
 <div class = "form-group">
 <label for="txtid">id:</label>
-<input type="text" class="form-control"Value=<?php echo $txtid;?> name="txtid" id="txtid"placeholder="id">
+<input type="text" class="form-control"Value="<?php echo $txtid;?>" name="txtid" id="txtid"placeholder="id">
 
 </div>
 
 <form>
 <div class = "form-group">
 <label for="txtNombre">Nombre:</label>
-<input type="text" class="form-control"Value=<?php echo $txtNombre;?> name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
+<input type="text" class="form-control"Value="<?php echo $txtNombre;?>" name="txtNombre" id="txtNombre"placeholder="Nombre del Vehículo">
 
 </div>
 
 <div class = "form-group">
 <label for="txtNombre">Modelo:</label>
-<input type="text" class="form-control"Value=<?php echo $txtModelo;?> name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
+<input type="text" class="form-control"Value="<?php echo $txtModelo;?>" name="txtModelo" id="txtModelo"placeholder="Modelo del Vehículo">
 
 </div>
 
 <div class = "form-group">
 <label for="txtNombre">Color:</label>
-<input type="text" class="form-control"Value=<?php echo $txtColor?>; name="txtColor" id="txtColor"placeholder="Color del Vehículo">
+<input type="text" class="form-control"Value="<?php echo $txtColor;?>" name="txtColor" id="txtColor"placeholder="Color del Vehículo">
 
 </div>
 
 <div class = "form-group">
 <label for="txtNombre">PrecioDia:</label>
-<input type="text" class="form-control"Value=<?php echo $txtPrecioDia?>; name="txtPrecioDia" id="txtPrecioDia"placeholder="Precio del Vehículo">
+<input type="text" class="form-control"Value="<?php echo $txtPrecioDia;?>" name="txtPrecioDia" id="txtPrecioDia"placeholder="Precio del Vehículo">
 
 </div>
 
@@ -257,11 +274,8 @@ echo $ex->getMessage();
             <td><?php echo $cars["Color"]; ?></td>
             <td><?php echo $cars["PrecioDia"]; ?></td>
             <td>
-            <img surce="../../Imagen"<?php echo $cars["Imagen"];?>"width="10"alt="" srcset="">
+            <img src="Imagen/<?php echo $cars["Imagen"];?>" width="50" alt="">
             <?php echo $cars["Imagen"]; ?>
-
-
-             
 
             
 
