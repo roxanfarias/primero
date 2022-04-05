@@ -11,12 +11,12 @@ $sentenciaSQL->execute();
 $listacars=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
+<div class="row">
 <?php foreach($listacars as $cars) { ?>
 
-<div class="col-md-12">
+<div class="col-md-4">
 <div class="card">
-    <img class="card-img-top" src="Administrador/Imagen echo $cars["Imagen"];?>
+    <img class="card-img-top" src="Administrador/Seccion2/Imagen/<?=$cars['Imagen']?>" width="400px">
     <div class="card-body">
     <h4 class="card-title"><?php echo $cars["Nombre"];?></h4>
     <a name="" id="" class="btn btn-primary" href="Clientes.php" role="button">Reservar</a>
@@ -26,6 +26,6 @@ $listacars=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 <?php } ?>
 
 
-
+<div>
 <?php include("template/pie.php");
 ?>      

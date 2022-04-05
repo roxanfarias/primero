@@ -16,10 +16,10 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
     <div class="nav navbar-nav">
         <a class="nav-item nav-link active" href="#">Administrador del sitio <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="<?php echo $url;?>//Administrador/inicio.php">Inicio</a>
+        <a class="nav-item nav-link" href="../inicio.php">Inicio</a>
 
-        <a class="nav-item nav-link" href="<?php echo $url;?>/Administrador/seccion2/productos.php">Vehículos</a>
-        <a class="nav-item nav-link" href="<?php echo $url;?>/Administrador/seccion2/cerrar.php">Cerrar Cesión</a>
+        <a class="nav-item nav-link" href="productos.php">Vehículos</a>
+        <a class="nav-item nav-link" href="cerrar.php">Cerrar Cesión</a>
 
         <a class="nav-item nav-link" href="<?php echo $url;?>"> Ver Sitio Web </a>
     </div>
